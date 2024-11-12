@@ -1,0 +1,6 @@
+@E_Gandhal_HostAddress = http://localhost:5190
+
+GET {{E_Gandhal_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
