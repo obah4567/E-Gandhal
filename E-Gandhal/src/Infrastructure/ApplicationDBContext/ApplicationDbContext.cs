@@ -1,4 +1,5 @@
 ﻿using E_Gandhal.src.Domain.Models.Authentification;
+using E_Gandhal.src.Domain.Models.Student;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Gandhal.src.Infrastructure.ApplicationDBContext
@@ -13,7 +14,9 @@ namespace E_Gandhal.src.Infrastructure.ApplicationDBContext
         
         }
 
-        public DbSet<ApplicationUser> Users => Set<ApplicationUser>();  
+        public DbSet<ApplicationUser> Users => Set<ApplicationUser>();
+        public DbSet<Student> Students => Set<Student>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

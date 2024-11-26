@@ -1,0 +1,22 @@
+﻿using E_Gandhal.src.Domain.DTO.StudentDTO;
+using E_Gandhal.src.Domain.Models.Student;
+
+namespace E_Gandhal.src.Domain.IServices
+{
+    public interface IStudentRepository
+    {
+        Task AddStudent(Student student, CancellationToken cancellationToken);
+
+        Task UpdateStudentInformation(int studentId, StudentDTO student, CancellationToken cancellationToken);
+
+        Task<List<Student>> GetAllAsync(CancellationToken cancellationToken);
+
+        Task DeleteStudent(int studentId, CancellationToken cancellationToken);
+
+        Task UpdateImageProfil(int studentId, IFormFile imgProfil, CancellationToken cancellationToken);
+
+        Task UploadImageProfil(int studentId, IFormFile imgProfil, CancellationToken cancellationToken);
+
+        Task<byte[]> GetInformationPdf(int studentId, CancellationToken cancellationToken);
+    }
+}

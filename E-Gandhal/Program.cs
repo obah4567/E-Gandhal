@@ -1,9 +1,11 @@
 using E_Gandhal.src.Domain.IServices;
 using E_Gandhal.src.Domain.Models.Authentification;
+using E_Gandhal.src.Domain.Models.Student;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using E_Gandhal.src.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // Dependency Of Injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
 
 
