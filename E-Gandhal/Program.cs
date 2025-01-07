@@ -28,7 +28,7 @@ builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IPasswordHasher<Register>, PasswordHasher<Register>>();
 builder.Services.AddScoped<IClasseRepository, ClasseRepository>();
 builder.Services.AddScoped<IMatiereRepository, MatiereRepository>();
-
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
 // Authentication and Cookies
 builder.Services.AddAuthentication("Cookies")
