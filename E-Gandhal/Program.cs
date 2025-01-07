@@ -1,11 +1,9 @@
 using E_Gandhal.src.Domain.IServices;
 using E_Gandhal.src.Domain.Models.Authentification;
-using E_Gandhal.src.Domain.Models.Student;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using E_Gandhal.src.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,16 +17,29 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<Register, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
 // Dependency Of Injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<IPasswordHasher<Register>, PasswordHasher<Register>>();
+builder.Services.AddScoped<IClasseRepository, ClasseRepository>();
+builder.Services.AddScoped<IMatiereRepository, MatiereRepository>();
 
 
+// Authentication and Cookies
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/api/User/Login";
+        options.Cookie.Name = "AuthCookie";
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.SlidingExpiration = true;
+    });
 
 var app = builder.Build();
 
@@ -41,6 +52,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

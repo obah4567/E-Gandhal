@@ -1,5 +1,5 @@
 ﻿using E_Gandhal.src.Domain.DTO.StudentDTO;
-using E_Gandhal.src.Domain.Models.Student;
+using E_Gandhal.src.Domain.Models.Students;
 
 namespace E_Gandhal.src.Domain.IServices
 {

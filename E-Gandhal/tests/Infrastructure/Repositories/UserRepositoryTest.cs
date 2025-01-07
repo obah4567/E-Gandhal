@@ -1,12 +1,12 @@
-﻿using Moq;
-using Microsoft.EntityFrameworkCore;
-using FluentAssertions;
-using Xunit;
-using E_Gandhal.src.Infrastructure.ApplicationDBContext;
-using Microsoft.AspNetCore.Identity;
+﻿using E_Gandhal.src.Domain.DTO.AuthentificationDTO;
 using E_Gandhal.src.Domain.Models.Authentification;
+using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using E_Gandhal.src.Infrastructure.Repositories;
-using E_Gandhal.src.Domain.DTO.AuthentificationDTO;
+using FluentAssertions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using Xunit;
 
 namespace E_Gandhal.tests.Infrastructure.Repositories
 {
@@ -14,7 +14,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
     {
 
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly Mock<IPasswordHasher<ApplicationUser>> _passwordHasher;
+        private readonly Mock<IPasswordHasher<Register>> _passwordHasher;
         private readonly UserRepository _repository;
 
         public UserRepositoryTest()
@@ -24,7 +24,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
             .Options;
 
             _applicationDbContext = new ApplicationDbContext(options);
-            _passwordHasher = new Mock<IPasswordHasher<ApplicationUser>>();
+            _passwordHasher = new Mock<IPasswordHasher<Register>>();
 
             _repository = new UserRepository(_applicationDbContext, _passwordHasher.Object);
         }
@@ -50,10 +50,10 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
                 DateOfBirth = new DateTime(2000, 12, 1),
                 Password = "Password@123"
             };
-            _passwordHasher.Setup(ph => ph.HashPassword(It.IsAny<ApplicationUser>(), It.IsAny<string>())).Returns("hashed_password");
+            _passwordHasher.Setup(ph => ph.HashPassword(It.IsAny<Register>(), It.IsAny<string>())).Returns("hashed_password");
 
             // Act
-            var result = await _repository.RegisterUserAsync(registerDto, CancellationToken.None);  
+            var result = await _repository.RegisterUserAsync(registerDto, CancellationToken.None);
 
             // Assert
             result.Should().Be(IdentityResult.Success);
@@ -65,8 +65,8 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         public async Task RegisterUserAsync_IfUserExist_ShouldReturnFail()
         {
             // Arrange
-            var existingUser = new ApplicationUser 
-            { 
+            var existingUser = new Register
+            {
                 Email = "test@example.com",
                 UserName = "userTest",
                 PasswordHash = "hashed_password"
@@ -98,7 +98,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         public async Task GetUserByEmailAsync_ShouldReturnUser_WhenEmailExists()
         {
             //Arrange
-            var existingUser = new ApplicationUser
+            var existingUser = new Register
             {
                 Email = "test@example.com",
                 UserName = "userTest",
@@ -121,7 +121,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         public async Task GetUserByEmailAsync_ShouldFail_WhenEmailNotExists()
         {
             //Arrange
-            var existingUser = new ApplicationUser
+            var existingUser = new Register
             {
                 Email = "null",
                 UserName = "null",
@@ -153,19 +153,19 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
                 Password = "Password@123"
             };
 
-            var existingUser = new ApplicationUser
+            var existingUser = new Register
             {
                 Email = loginDto.Email,
                 UserName = "userTest",
                 PasswordHash = "hashed_password"
             };
 
-            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
+            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<Register>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(PasswordVerificationResult.Success);
 
             await _applicationDbContext.Users.AddAsync(existingUser, CancellationToken.None);
             await _applicationDbContext.SaveChangesAsync();
-            
+
             //Act
             var resultat = await _repository.LoginUserAsync(loginDto, CancellationToken.None);
 
@@ -183,14 +183,14 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
                 Password = "FakePassword"
             };
 
-            var existingUser = new ApplicationUser
+            var existingUser = new Register
             {
                 Email = loginDto.Email,
                 UserName = "userTest",
                 PasswordHash = "hashed_password"
             };
 
-            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
+            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<Register>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(PasswordVerificationResult.Failed);
 
             await _applicationDbContext.Users.AddAsync(existingUser, CancellationToken.None);
@@ -210,7 +210,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         public async Task UpdateUserPassword_ShouldReturnSuccess_WhenValidOldPassword()
         {
             // Arrange
-            var existingUser = new ApplicationUser
+            var existingUser = new Register
             {
                 Email = "test@example.com",
                 UserName = "userTest",
@@ -224,8 +224,8 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
             var oldPassword = "old_hashed_password";
             var newPassword = "NewPassword@123";
 
-            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>())).Returns(PasswordVerificationResult.Success);
-            _passwordHasher.Setup(ph => ph.HashPassword(It.IsAny<ApplicationUser>(), It.IsAny<string>())).Returns("new_hashed_password");
+            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<Register>(), It.IsAny<string>(), It.IsAny<string>())).Returns(PasswordVerificationResult.Success);
+            _passwordHasher.Setup(ph => ph.HashPassword(It.IsAny<Register>(), It.IsAny<string>())).Returns("new_hashed_password");
 
             // Act
             var result = await _repository.UpdateUserPassword(email, oldPassword, newPassword, CancellationToken.None);
@@ -240,7 +240,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         public async Task UpdateUserPassword_ShouldReturnFailed_WhenWrongOldPassword()
         {
             // Arrange
-            var existingUser = new ApplicationUser
+            var existingUser = new Register
             {
                 Email = "test@example.com",
                 UserName = "userTest",
@@ -254,7 +254,7 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
             var oldPassword = "old_hashed_passwordXXXXXXX";
             var newPassword = "NewPassword@123";
 
-            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>())).Returns(PasswordVerificationResult.Failed);
+            _passwordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<Register>(), It.IsAny<string>(), It.IsAny<string>())).Returns(PasswordVerificationResult.Failed);
 
             // Act
             var result = await _repository.UpdateUserPassword(email, oldPassword, newPassword, CancellationToken.None);

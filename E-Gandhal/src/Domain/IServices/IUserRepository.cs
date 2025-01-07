@@ -10,13 +10,13 @@ namespace E_Gandhal.src.Domain.IServices
 
         Task<SignInResult> LoginUserAsync(LoginDTO loginDto, CancellationToken cancellationToken);
 
-        Task<ApplicationUser> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
+        Task<Register> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
 
         //Task<IdentityResult> UpdateUserAsync(int id, UpdateUserDTO updateUserDto, CancellationToken cancelToken);
 
-        Task<ApplicationUser> Disconnected(int id, CancellationToken cancellationToken);
+        Task<Register> Disconnected(int id, CancellationToken cancellationToken);
 
         Task<IdentityResult> UpdateUserPassword(string email, string oldPassword, string newPassword, CancellationToken cancellationToken);
-        
+
     }
 }

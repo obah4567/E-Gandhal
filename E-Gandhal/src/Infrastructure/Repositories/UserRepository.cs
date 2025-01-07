@@ -4,17 +4,16 @@ using E_Gandhal.src.Domain.Models.Authentification;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace E_Gandhal.src.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IPasswordHasher<Register> _passwordHasher;
         //private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserRepository(ApplicationDbContext applicationDbContext, IPasswordHasher<ApplicationUser> passwordHasher) //, SignInManager<ApplicationUser> signInManager)
+        public UserRepository(ApplicationDbContext applicationDbContext, IPasswordHasher<Register> passwordHasher) //, SignInManager<ApplicationUser> signInManager)
         {
             _applicationDbContext = applicationDbContext;
             _passwordHasher = passwordHasher;
@@ -24,12 +23,12 @@ namespace E_Gandhal.src.Infrastructure.Repositories
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDto, CancellationToken cancellationToken)
         {
             var userExisting = await _applicationDbContext.Users.FirstOrDefaultAsync(u => u.Email == registerDto.Email, cancellationToken);
-            if (userExisting != null) 
+            if (userExisting != null)
             {
                 return IdentityResult.Failed(new IdentityError { Description = $"This {userExisting} was already exist" });
             }
-            var user = new ApplicationUser 
-            { 
+            var user = new Register
+            {
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
                 FirstName = registerDto.Firstname,
@@ -61,10 +60,10 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             return SignInResult.Success;
         }
 
-        public async Task<ApplicationUser> Disconnected(int id, CancellationToken cancellationToken)
+        public async Task<Register> Disconnected(int id, CancellationToken cancellationToken)
         {
             var user = await _applicationDbContext.Users.SingleOrDefaultAsync(u => u.UserId == id, cancellationToken);
-            if (user != null) 
+            if (user != null)
             {
                 user.LockoutEnabled = true;
                 user.LockoutEnd = DateTimeOffset.UtcNow.AddYears(1);
@@ -73,7 +72,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             return user;
         }
 
-        public async Task<ApplicationUser> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+        public async Task<Register> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
         {
             return await _applicationDbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
         }
@@ -94,7 +93,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             else
             {
                 userExisting.PasswordHash = _passwordHasher.HashPassword(userExisting, newPassword);
-            }         
+            }
 
             _applicationDbContext.Users.Update(userExisting);
             await _applicationDbContext.SaveChangesAsync(cancellationToken);

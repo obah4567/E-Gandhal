@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_Gandhal.src.Domain.Models.Authentification
 {
-    public class ApplicationUser : IdentityUser
+    public class Register : IdentityUser
     {
         [Key]
         public int UserId { get; set; }

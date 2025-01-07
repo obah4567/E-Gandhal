@@ -1,11 +1,10 @@
 ﻿using E_Gandhal.src.Domain.DTO.StudentDTO;
 using E_Gandhal.src.Domain.IServices;
-using E_Gandhal.src.Domain.Models.Student;
+using E_Gandhal.src.Domain.Models.Students;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using System.IO;
 
 namespace E_Gandhal.src.Infrastructure.Repositories
 {
@@ -22,6 +21,12 @@ namespace E_Gandhal.src.Infrastructure.Repositories
 
         public async Task AddStudent(Student student, CancellationToken cancellationToken)
         {
+            var testerClasseId = await _applicationDbContext.Classes.FindAsync(student.ClasseId);
+            if (testerClasseId == null)
+            {
+                _logger.LogInformation("Cette classe n'existe pas");
+                throw new Exception($"Cette classe {student.ClasseId} n'existe pas ou veuillez la crée ! ");
+            }
             await _applicationDbContext.Students.AddAsync(student, cancellationToken);
             await _applicationDbContext.SaveChangesAsync(cancellationToken);
         }
@@ -46,7 +51,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
         public async Task<byte[]> GetInformationPdf(int studentId, CancellationToken cancellationToken)
         {
             var existentStudent = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id == studentId);
-            if (existentStudent == null) 
+            if (existentStudent == null)
             {
                 _logger.LogInformation($"Nous n'avons pas trouvé cet élève {studentId}");
                 throw new Exception($"Elève avec l'ID {studentId} introuvable.");
@@ -69,7 +74,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
                 {
                     // Fonction qui retourne un flux
                     Func<Stream> imageStreamFunc = () => new FileStream(imagePath, FileMode.Open, FileAccess.Read);
-            
+
                     // Charger l'image à partir du flux
                     var profileImage = XImage.FromStream(imageStreamFunc);
                     graphics.DrawImage(profileImage, 40, 80, 100, 100); // Taille et position de l'image
@@ -86,7 +91,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             graphics.DrawString($"Lastname : {existentStudent.Lastname}", font, XBrushes.Black, new XPoint(160, 160));
             graphics.DrawString($"Date de Naissance: {existentStudent.DateOfBirth:dd/MM/yyyy}", font, XBrushes.Black, new XPoint(160, 190));
             graphics.DrawString($"Lieu de Naissance: {existentStudent.PlaceOfBirth}", font, XBrushes.Black, new XPoint(160, 220));
-            graphics.DrawString($"Classe: {existentStudent.Classe}", font, XBrushes.Black, new XPoint(160, 250));
+            graphics.DrawString($"Classe: {existentStudent.ClasseId}", font, XBrushes.Black, new XPoint(160, 250));
 
 
             // Convertir le PDF en flux de mémoire
@@ -98,7 +103,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             }
         }
 
-        public async Task UpdateImageProfil(int studentId, IFormFile imgProfil,CancellationToken cancellationToken)
+        public async Task UpdateImageProfil(int studentId, IFormFile imgProfil, CancellationToken cancellationToken)
         {
             var student = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id == studentId, cancellationToken);
             if (imgProfil == null || student == null)
@@ -113,7 +118,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
         public async Task UpdateStudentInformation(int studentId, StudentDTO student, CancellationToken cancellationToken)
         {
             var existentStudent = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id == studentId, cancellationToken);
-            
+
             if (existentStudent == null)
             {
                 _logger.LogInformation("Nous n'avons pas trouvé cet élève");
@@ -122,7 +127,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
 
             existentStudent.Firstname = student.Firstname;
             existentStudent.Lastname = student.Lastname;
-            existentStudent.Classe = student.Classe;
+            //existentStudent.Classe = student.Classe;
             existentStudent.DateOfBirth = student.DateOfBirth;
             existentStudent.ImageProfil = student.ImageProfil;
             existentStudent.PlaceOfBirth = existentStudent.PlaceOfBirth;
@@ -133,7 +138,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
         public async Task UploadImageProfil(int studentId, IFormFile imgProfil, CancellationToken cancellationToken)
         {
             // Vérifie si le fichier et l'entité Student sont valides
-            var student = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id==studentId, cancellationToken);
+            var student = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id == studentId, cancellationToken);
             if (imgProfil == null || student == null)
             {
                 throw new ArgumentNullException("L'image ou l'étudiant ne peut pas être null.");

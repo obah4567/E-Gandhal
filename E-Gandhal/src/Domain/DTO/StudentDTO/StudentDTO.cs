@@ -8,7 +8,7 @@
         public string Lastname { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         public string PlaceOfBirth { get; set; } = string.Empty;
-        public string Classe { get; set; } = string.Empty;
+        //public Classe Classe { get; set; }
 
         /*public string FatherName { get; set; } = string.Empty;
 

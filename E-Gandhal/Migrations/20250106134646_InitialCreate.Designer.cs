@@ -4,6 +4,7 @@ using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Gandhal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106134646_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +106,7 @@ namespace E_Gandhal.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClasseId")
+                    b.Property<int?>("ClasseId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -244,11 +247,12 @@ namespace E_Gandhal.Migrations
 
             modelBuilder.Entity("E_Gandhal.src.Domain.Models.Students.Student", b =>
                 {
-                    b.HasOne("E_Gandhal.src.Domain.Models.Teachers.Classe", null)
+                    b.HasOne("E_Gandhal.src.Domain.Models.Teachers.Classe", "Classe")
                         .WithMany()
                         .HasForeignKey("ClasseId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Classe");
                 });
 
             modelBuilder.Entity("E_Gandhal.src.Domain.Models.Teachers.Matiere", b =>

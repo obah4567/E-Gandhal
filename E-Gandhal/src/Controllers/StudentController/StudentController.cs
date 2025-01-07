@@ -1,13 +1,13 @@
 ﻿using E_Gandhal.src.Domain.DTO.StudentDTO;
 using E_Gandhal.src.Domain.IServices;
-using E_Gandhal.src.Domain.Models.Student;
-using Microsoft.AspNetCore.Authorization;
+using E_Gandhal.src.Domain.Models.Students;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Gandhal.src.Controllers.StudentContro
+namespace E_Gandhal.src.Controllers.StudentController
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository _studentRepository;
@@ -28,7 +28,7 @@ namespace E_Gandhal.src.Controllers.StudentContro
         [HttpPost("AddStudent")]
         public async Task<IActionResult> AddStudent([FromBody] Student student, CancellationToken cancellationToken)
         {
-            if (student == null)    
+            if (student == null)
             {
                 return BadRequest("Une erreur s'est produit !");
             }
@@ -53,7 +53,7 @@ namespace E_Gandhal.src.Controllers.StudentContro
         [HttpPatch("Update-Student-Information")]
         public async Task<IActionResult> UpdateStudentInformation(int id, [FromBody] StudentDTO student, CancellationToken cancellationToken)
         {
-            if (student == null) 
+            if (student == null)
             {
                 return BadRequest("Nous n'avons pas pu modifier ces informations !");
             }
@@ -74,13 +74,13 @@ namespace E_Gandhal.src.Controllers.StudentContro
         }
 
         [HttpPut("UpdateProfilImage")]
-        public async Task<IActionResult> UpdateProfilImageStudent(int studentId, IFormFile imgProfil,CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProfilImageStudent(int studentId, IFormFile imgProfil, CancellationToken cancellationToken)
         {
             if (imgProfil == null || imgProfil.Length == 0)
             {
                 return BadRequest("Veuillez fournir une image valide !");
             }
-            await _studentRepository.UpdateImageProfil(studentId,imgProfil, cancellationToken);
+            await _studentRepository.UpdateImageProfil(studentId, imgProfil, cancellationToken);
             return Ok("La photo de profil à bien été mise à jour !");
         }
     }
