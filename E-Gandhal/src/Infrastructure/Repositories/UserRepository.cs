@@ -11,13 +11,11 @@ namespace E_Gandhal.src.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IPasswordHasher<Register> _passwordHasher;
-        //private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserRepository(ApplicationDbContext applicationDbContext, IPasswordHasher<Register> passwordHasher) //, SignInManager<ApplicationUser> signInManager)
+        public UserRepository(ApplicationDbContext applicationDbContext, IPasswordHasher<Register> passwordHasher)
         {
             _applicationDbContext = applicationDbContext;
             _passwordHasher = passwordHasher;
-            //_signInManager = signInManager;
         }
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDto, CancellationToken cancellationToken)

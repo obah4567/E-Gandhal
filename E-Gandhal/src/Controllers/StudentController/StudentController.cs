@@ -1,13 +1,15 @@
 ﻿using E_Gandhal.src.Domain.DTO.StudentDTO;
 using E_Gandhal.src.Domain.IServices;
 using E_Gandhal.src.Domain.Models.Students;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Gandhal.src.Controllers.StudentController
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository _studentRepository;

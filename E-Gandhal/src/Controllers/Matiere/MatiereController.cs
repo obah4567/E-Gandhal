@@ -1,11 +1,14 @@
 ﻿using E_Gandhal.src.Domain.DTO.TeacherDTO;
 using E_Gandhal.src.Domain.IServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Gandhal.src.Controllers.Matiere
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MatiereController : ControllerBase
     {
         private readonly IMatiereRepository _matiereRepository;

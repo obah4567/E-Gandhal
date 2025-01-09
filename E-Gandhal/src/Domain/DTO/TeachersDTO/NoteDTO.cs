@@ -1,6 +1,4 @@
-﻿using E_Gandhal.src.Domain.DTO.TeacherDTO;
-
-namespace E_Gandhal.src.Domain.DTO.TeachersDTO
+﻿namespace E_Gandhal.src.Domain.DTO.TeachersDTO
 {
     public class NoteDTO
     {

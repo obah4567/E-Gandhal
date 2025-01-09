@@ -1,12 +1,14 @@
 ﻿using E_Gandhal.src.Domain.DTO.TeachersDTO;
 using E_Gandhal.src.Domain.IServices;
-using E_Gandhal.src.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Gandhal.src.Controllers.Notes
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NoteController : ControllerBase
     {
         private readonly INoteRepository _noteService;
