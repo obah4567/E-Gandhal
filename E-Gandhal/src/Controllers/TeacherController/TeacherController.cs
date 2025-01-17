@@ -12,9 +12,9 @@ namespace E_Gandhal.Controllers
 
     public class TeacherController : ControllerBase
     {
-        private readonly ITeacherRepository _teacherRepository;
+        private readonly ITeacherService _teacherRepository;
 
-        public TeacherController(ITeacherRepository teacherRepository)
+        public TeacherController(ITeacherService teacherRepository)
         {
             _teacherRepository = teacherRepository;
         }

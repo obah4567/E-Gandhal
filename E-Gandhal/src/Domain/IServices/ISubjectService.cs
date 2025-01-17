@@ -2,7 +2,7 @@
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface ISubjectRepository
+    public interface ISubjectService
     {
         Task<SubjectDTO> GetSubjectByIdAsync(int id);
 

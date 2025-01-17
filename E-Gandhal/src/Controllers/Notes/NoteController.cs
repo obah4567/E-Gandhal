@@ -11,9 +11,9 @@ namespace E_Gandhal.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NoteController : ControllerBase
     {
-        private readonly INoteRepository _noteService;
+        private readonly INoteService _noteService;
 
-        public NoteController(INoteRepository noteService)
+        public NoteController(INoteService noteService)
         {
             _noteService = noteService;
         }

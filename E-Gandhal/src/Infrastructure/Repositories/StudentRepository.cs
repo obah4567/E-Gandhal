@@ -8,7 +8,7 @@ using PdfSharpCore.Pdf;
 
 namespace E_Gandhal.Infrastructure.Repositories
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : IStudentService
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly ILogger<StudentRepository> _logger;

@@ -2,7 +2,7 @@
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface INoteRepository
+    public interface INoteService
     {
         Task<NoteDTO> GetNoteByIdAsync(int id);
         Task<IEnumerable<NoteDTO>> GetAllNotesAsync();

@@ -2,7 +2,7 @@
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface ITeacherRepository
+    public interface ITeacherService
     {
         Task<TeacherDTO> GetTeacherByIdAsync(int teacherId, CancellationToken cancellationToken);
         Task<IEnumerable<TeacherDTO>> GetAllTeachersAsync(CancellationToken cancellationToken);

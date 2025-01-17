@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Gandhal.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserAuthentificationService
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IPasswordHasher<Register> _passwordHasher;

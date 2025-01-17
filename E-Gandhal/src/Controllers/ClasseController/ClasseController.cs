@@ -11,9 +11,9 @@ namespace E_Gandhal.src.Controllers.ClasseController
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClasseController : ControllerBase
     {
-        private readonly IClasseRepository _classeRepository;
+        private readonly IClasseService _classeRepository;
 
-        public ClasseController(IClasseRepository classeService)
+        public ClasseController(IClasseService classeService)
         {
             _classeRepository = classeService;
         }

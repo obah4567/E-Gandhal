@@ -12,9 +12,9 @@ namespace E_Gandhal.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StudentController : ControllerBase
     {
-        private readonly IStudentRepository _studentRepository;
+        private readonly IStudentService _studentRepository;
 
-        public StudentController(IStudentRepository studentRepository)
+        public StudentController(IStudentService studentRepository)
         {
             _studentRepository = studentRepository;
         }

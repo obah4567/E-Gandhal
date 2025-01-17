@@ -21,13 +21,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Dependency Of Injection
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<IUserAuthentificationService, UserRepository>();
+builder.Services.AddScoped<IStudentService, StudentRepository>();
+builder.Services.AddScoped<ITeacherService, TeacherRepository>();
 builder.Services.AddScoped<IPasswordHasher<Register>, PasswordHasher<Register>>();
-builder.Services.AddScoped<IClasseRepository, ClasseRepository>();
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<IClasseService, ClasseRepository>();
+builder.Services.AddScoped<ISubjectService, SubjectRepository>();
+builder.Services.AddScoped<INoteService, NoteRepository>();
 
 // JWT Authentication
 builder.Services.AddAuthentication(options =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Gandhal.Infrastructure.Repositories
 {
-    public class ClasseRepository : IClasseRepository
+    public class ClasseRepository : IClasseService
     {
         private readonly ApplicationDbContext _context;
 

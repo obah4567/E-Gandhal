@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EGandhal.Infrastructure.Repositories
 {
-    public class SubjectRepository : ISubjectRepository
+    public class SubjectRepository : ISubjectService
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<SubjectRepository> _logger;

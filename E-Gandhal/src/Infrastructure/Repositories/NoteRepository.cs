@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Gandhal.Infrastructure.Repositories
 {
-    public class NoteRepository : INoteRepository
+    public class NoteRepository : INoteService
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<NoteRepository> _logger;

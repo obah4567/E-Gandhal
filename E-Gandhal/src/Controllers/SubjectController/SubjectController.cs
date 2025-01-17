@@ -11,9 +11,9 @@ namespace E_Gandhal.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SubjectController : ControllerBase
     {
-        private readonly ISubjectRepository _matiereRepository;
+        private readonly ISubjectService _matiereRepository;
 
-        public SubjectController(ISubjectRepository matiereService)
+        public SubjectController(ISubjectService matiereService)
         {
             _matiereRepository = matiereService;
         }

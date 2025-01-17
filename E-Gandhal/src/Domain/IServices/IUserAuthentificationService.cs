@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface IUserRepository
+    public interface IUserAuthentificationService
     {
         Task<IdentityResult> RegisterUserAsync(RegisterDTO registerDto, CancellationToken cancellationToken);
 

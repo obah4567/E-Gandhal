@@ -2,7 +2,7 @@
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface IClasseRepository
+    public interface IClasseService
     {
         Task<ClasseDTO> GetClasseByIdAsync(int classeId);
 

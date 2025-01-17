@@ -12,11 +12,11 @@ namespace E_Gandhal.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserAuthentificationService _userRepository;
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _configuration;
 
-        public UserController(IUserRepository userRepository, ILogger<UserController> logger, IConfiguration configuration)
+        public UserController(IUserAuthentificationService userRepository, ILogger<UserController> logger, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _logger = logger;

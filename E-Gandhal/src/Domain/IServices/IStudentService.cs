@@ -3,7 +3,7 @@ using E_Gandhal.src.Domain.Models.Students;
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface IStudentRepository
+    public interface IStudentService
     {
         Task AddStudent(Student student, CancellationToken cancellationToken);
 
