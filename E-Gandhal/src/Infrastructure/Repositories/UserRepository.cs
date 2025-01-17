@@ -5,7 +5,7 @@ using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Gandhal.src.Infrastructure.Repositories
+namespace E_Gandhal.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {

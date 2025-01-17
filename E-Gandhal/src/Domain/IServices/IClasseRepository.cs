@@ -18,6 +18,6 @@ namespace E_Gandhal.src.Domain.IServices
 
         Task<bool> RemoveMatiereFromClasseAsync(int classeId, int matiereId);
 
-        Task<IEnumerable<MatiereDTO>> GetMatieresForClasseAsync(int classeId);
+        Task<IEnumerable<SubjectDTO>> GetMatieresForClasseAsync(int classeId);
     }
 }

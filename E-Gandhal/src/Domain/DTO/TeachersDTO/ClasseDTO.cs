@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<MatiereDTO> MatiereDTOs { get; set; } = new List<MatiereDTO>();
+        public List<SubjectDTO> MatiereDTOs { get; set; } = new List<SubjectDTO>();
     }
 }

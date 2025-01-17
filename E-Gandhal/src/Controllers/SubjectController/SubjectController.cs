@@ -4,24 +4,24 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Gandhal.src.Controllers.Matiere
+namespace E_Gandhal.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class MatiereController : ControllerBase
+    public class SubjectController : ControllerBase
     {
-        private readonly IMatiereRepository _matiereRepository;
+        private readonly ISubjectRepository _matiereRepository;
 
-        public MatiereController(IMatiereRepository matiereService)
+        public SubjectController(ISubjectRepository matiereService)
         {
             _matiereRepository = matiereService;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MatiereDTO>> GetMatiere(int id)
+        public async Task<ActionResult<SubjectDTO>> GetMatiere(int id)
         {
-            var matiereDto = await _matiereRepository.GetMatiereByIdAsync(id);
+            var matiereDto = await _matiereRepository.GetSubjectByIdAsync(id);
 
             if (matiereDto == null)
                 return NotFound();
@@ -30,26 +30,26 @@ namespace E_Gandhal.src.Controllers.Matiere
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MatiereDTO>>> GetAllMatieres()
+        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetAllMatieres()
         {
-            var matieresDtos = await _matiereRepository.GetAllMatieresAsync();
+            var matieresDtos = await _matiereRepository.GetAllSubjectsAsync();
             return Ok(matieresDtos);
         }
 
         [HttpPost]
-        public async Task<ActionResult<MatiereDTO>> CreateMatiere(MatiereDTO matiereDto)
+        public async Task<ActionResult<SubjectDTO>> CreateMatiere(SubjectDTO matiereDto)
         {
-            var createdMatiere = await _matiereRepository.CreateMatiereAsync(matiereDto);
+            var createdMatiere = await _matiereRepository.CreateSubjectAsync(matiereDto);
             return CreatedAtAction(nameof(GetMatiere), new { id = createdMatiere.Id }, createdMatiere);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMatiere(int id, MatiereDTO matiereDto)
+        public async Task<IActionResult> UpdateMatiere(int id, SubjectDTO matiereDto)
         {
             if (id != matiereDto.Id)
                 return BadRequest();
 
-            var updatedMatiere = await _matiereRepository.UpdateMatiereAsync(matiereDto);
+            var updatedMatiere = await _matiereRepository.UpdateSubjectAsync(matiereDto);
 
             if (updatedMatiere == null)
                 return NotFound();
@@ -60,7 +60,7 @@ namespace E_Gandhal.src.Controllers.Matiere
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMatiere(int id)
         {
-            var result = await _matiereRepository.DeleteMatiereAsync(id);
+            var result = await _matiereRepository.DeleteSubjectAsync(id);
 
             if (!result)
                 return NotFound();
@@ -69,9 +69,9 @@ namespace E_Gandhal.src.Controllers.Matiere
         }
 
         [HttpGet("classe/{classeId}")]
-        public async Task<ActionResult<IEnumerable<MatiereDTO>>> GetMatieresByClasse(int classeId)
+        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetMatieresByClasse(int classeId)
         {
-            var matieresDtos = await _matiereRepository.GetMatieresByClasseAsync(classeId);
+            var matieresDtos = await _matiereRepository.GetSubjectsByClasseAsync(classeId);
 
             if (!matieresDtos.Any())
                 return NotFound();

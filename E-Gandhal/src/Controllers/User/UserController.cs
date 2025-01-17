@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace E_Gandhal.src.Controllers.User
+namespace E_Gandhal.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

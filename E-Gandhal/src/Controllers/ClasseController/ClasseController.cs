@@ -91,7 +91,7 @@ namespace E_Gandhal.src.Controllers.ClasseController
         }
 
         [HttpGet("GetMatiere/{classeId}/matieres")]
-        public async Task<ActionResult<IEnumerable<MatiereDTO>>> GetMatieresForClasse(int classeId)
+        public async Task<ActionResult<IEnumerable<SubjectDTO>>> GetMatieresForClasse(int classeId)
         {
             var matieresDtos = await _classeRepository.GetMatieresForClasseAsync(classeId);
 

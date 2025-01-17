@@ -2,18 +2,18 @@
 
 namespace E_Gandhal.src.Domain.IServices
 {
-    public interface IMatiereRepository
+    public interface ISubjectRepository
     {
-        Task<MatiereDTO> GetMatiereByIdAsync(int id);
+        Task<SubjectDTO> GetSubjectByIdAsync(int id);
 
-        Task<IEnumerable<MatiereDTO>> GetAllMatieresAsync();
+        Task<IEnumerable<SubjectDTO>> GetAllSubjectsAsync();
 
-        Task<MatiereDTO> CreateMatiereAsync(MatiereDTO MatiereDTO);
+        Task<SubjectDTO> CreateSubjectAsync(SubjectDTO SubjectDTO);
 
-        Task<MatiereDTO> UpdateMatiereAsync(MatiereDTO MatiereDTO);
+        Task<SubjectDTO> UpdateSubjectAsync(SubjectDTO SubjectDTO);
 
-        Task<bool> DeleteMatiereAsync(int id);
+        Task<bool> DeleteSubjectAsync(int id);
 
-        Task<IEnumerable<MatiereDTO>> GetMatieresByClasseAsync(int classeId);
+        Task<IEnumerable<SubjectDTO>> GetSubjectsByClasseAsync(int classeId);
     }
 }

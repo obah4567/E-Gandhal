@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Gandhal.src.Controllers.Notes
+namespace E_Gandhal.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

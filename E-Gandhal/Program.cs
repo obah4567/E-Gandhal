@@ -1,12 +1,13 @@
 using E_Gandhal.src.Domain.IServices;
 using E_Gandhal.src.Domain.Models.Authentification;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
-using E_Gandhal.src.Infrastructure.Repositories;
+using E_Gandhal.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using EGandhal.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IPasswordHasher<Register>, PasswordHasher<Register>>();
 builder.Services.AddScoped<IClasseRepository, ClasseRepository>();
-builder.Services.AddScoped<IMatiereRepository, MatiereRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
 // JWT Authentication

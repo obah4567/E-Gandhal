@@ -4,7 +4,7 @@ using E_Gandhal.src.Domain.Models.Teachers;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Gandhal.src.Infrastructure.Repositories
+namespace E_Gandhal.Infrastructure.Repositories
 {
     public class ClasseRepository : IClasseRepository
     {
@@ -27,7 +27,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             {
                 Id = classe.ClasseId,
                 Name = classe.Name,
-                MatiereDTOs = classe.Matieres.Select(m => new MatiereDTO
+                MatiereDTOs = classe.Matieres.Select(m => new SubjectDTO
                 {
                     Id = m.Id,
                     Subject = m.Subject
@@ -43,7 +43,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
                 {
                     Id = c.ClasseId,
                     Name = c.Name,
-                    MatiereDTOs = c.Matieres.Select(m => new MatiereDTO
+                    MatiereDTOs = c.Matieres.Select(m => new SubjectDTO
                     {
                         Id = m.Id,
                         Subject = m.Subject
@@ -67,7 +67,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             {
                 Id = classe.ClasseId,
                 Name = classe.Name,
-                MatiereDTOs = classe.Matieres.Select(m => new MatiereDTO
+                MatiereDTOs = classe.Matieres.Select(m => new SubjectDTO
                 {
                     Id = m.Id,
                     Subject = m.Subject
@@ -91,7 +91,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             {
                 Id = classe.ClasseId,
                 Name = classe.Name,
-                MatiereDTOs = classe.Matieres.Select(m => new MatiereDTO
+                MatiereDTOs = classe.Matieres.Select(m => new SubjectDTO
                 {
                     Id = m.Id,
                     Subject = m.Subject
@@ -152,15 +152,15 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             return false;
         }
 
-        public async Task<IEnumerable<MatiereDTO>> GetMatieresForClasseAsync(int classeId)
+        public async Task<IEnumerable<SubjectDTO>> GetMatieresForClasseAsync(int classeId)
         {
             var classe = await _context.Classes
                 .Include(c => c.Matieres)
                 .FirstOrDefaultAsync(c => c.ClasseId == classeId);
 
-            if (classe == null) return new List<MatiereDTO>();
+            if (classe == null) return new List<SubjectDTO>();
 
-            return classe.Matieres.Select(m => new MatiereDTO
+            return classe.Matieres.Select(m => new SubjectDTO
             {
                 Id = m.Id,
                 Subject = m.Subject,

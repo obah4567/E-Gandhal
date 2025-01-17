@@ -4,7 +4,7 @@ using E_Gandhal.src.Domain.Models.Teachers;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Gandhal.src.Infrastructure.Repositories
+namespace E_Gandhal.Infrastructure.Repositories
 {
     public class NoteRepository : INoteRepository
     {

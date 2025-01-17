@@ -1,6 +1,6 @@
 ﻿namespace E_Gandhal.src.Domain.DTO.TeacherDTO
 {
-    public class MatiereDTO
+    public class SubjectDTO
     {
         public int Id { get; set; }
         public string Subject { get; set; }

@@ -4,20 +4,20 @@ using E_Gandhal.src.Domain.Models.Teachers;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Gandhal.src.Infrastructure.Repositories
+namespace EGandhal.Infrastructure.Repositories
 {
-    public class MatiereRepository : IMatiereRepository
+    public class SubjectRepository : ISubjectRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<MatiereRepository> _logger;
+        private readonly ILogger<SubjectRepository> _logger;
 
-        public MatiereRepository(ApplicationDbContext context, ILogger<MatiereRepository> logger)
+        public SubjectRepository(ApplicationDbContext context, ILogger<SubjectRepository> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        public async Task<MatiereDTO> GetMatiereByIdAsync(int id)
+        public async Task<SubjectDTO> GetSubjectByIdAsync(int id)
         {
             var matiere = await _context.Matieres
                 .Include(m => m.Classe)
@@ -26,7 +26,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
 
             if (matiere == null) return null;
 
-            return new MatiereDTO
+            return new SubjectDTO
             {
                 Id = matiere.Id,
                 Subject = matiere.Subject,
@@ -41,12 +41,12 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             };
         }
 
-        public async Task<IEnumerable<MatiereDTO>> GetAllMatieresAsync()
+        public async Task<IEnumerable<SubjectDTO>> GetAllSubjectsAsync()
         {
             return await _context.Matieres
                 .Include(m => m.Classe)
                 .Include(m => m.Teacher)
-                .Select(m => new MatiereDTO
+                .Select(m => new SubjectDTO
                 {
                     Id = m.Id,
                     Subject = m.Subject,
@@ -62,7 +62,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             .ToListAsync();
         }
 
-        public async Task<MatiereDTO> CreateMatiereAsync(MatiereDTO MatiereDTO)
+        public async Task<SubjectDTO> CreateSubjectAsync(SubjectDTO MatiereDTO)
         {
             var matiere = new Matiere
             {
@@ -81,7 +81,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             _context.Matieres.Add(matiere);
             await _context.SaveChangesAsync();
 
-            return new MatiereDTO
+            return new SubjectDTO
             {
                 Id = matiere.Id,
                 Subject = matiere.Subject,
@@ -90,7 +90,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             };
         }
 
-        public async Task<MatiereDTO> UpdateMatiereAsync(MatiereDTO MatiereDTO)
+        public async Task<SubjectDTO> UpdateSubjectAsync(SubjectDTO MatiereDTO)
         {
             var matiere = await _context.Matieres.FindAsync(MatiereDTO.Id);
 
@@ -103,7 +103,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
 
             await _context.SaveChangesAsync();
 
-            return new MatiereDTO
+            return new SubjectDTO
             {
                 Id = matiere.Id,
                 Subject = matiere.Subject,
@@ -112,7 +112,7 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             };
         }
 
-        public async Task<bool> DeleteMatiereAsync(int id)
+        public async Task<bool> DeleteSubjectAsync(int id)
         {
             var matiere = await _context.Matieres.FindAsync(id);
 
@@ -124,12 +124,12 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<IEnumerable<MatiereDTO>> GetMatieresByClasseAsync(int classeId)
+        public async Task<IEnumerable<SubjectDTO>> GetSubjectsByClasseAsync(int classeId)
         {
             return await _context.Matieres
                 .Where(m => m.ClasseId == classeId)
                 .Include(m => m.Teacher)
-                .Select(m => new MatiereDTO
+                .Select(m => new SubjectDTO
                 {
                     Id = m.Id,
                     Subject = m.Subject,

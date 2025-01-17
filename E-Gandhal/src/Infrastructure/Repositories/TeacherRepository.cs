@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 
-namespace E_Gandhal.src.Infrastructure.Repositories
+namespace E_Gandhal.Infrastructure.Repositories
 {
     public class TeacherRepository : ITeacherRepository
     {
