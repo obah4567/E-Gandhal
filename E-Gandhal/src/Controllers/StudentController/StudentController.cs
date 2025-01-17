@@ -20,14 +20,40 @@ namespace E_Gandhal.src.Controllers.StudentController
         }
 
         [HttpGet("GetStudentPdf/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetStudentPdf(int id, CancellationToken cancellationToken)
         {
-            var pdfBytes = await _studentRepository.GetInformationPdf(id, cancellationToken);
+            try
+            {
+                var pdfBytes = await _studentRepository.GetInformationPdf(id, cancellationToken);
+                return File(pdfBytes, "application/pdf", $"Student_{id}.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "Nous avons pas trouvé cet élève !");
+            }
+        }
 
-            return File(pdfBytes, "application/pdf", $"Student_{id}.pdf");
+        [HttpGet("SchoolCertificatePdf/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SchoolCertificatePdf(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var pdfBytes = await _studentRepository.SchoolCertificatePdf(id, cancellationToken);
+                return File(pdfBytes, "application/pdf", $"Student_{id}.pdf");
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "Nous avons pas trouvé cet élève !");
+            }
         }
 
         [HttpPost("AddStudent")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddStudent([FromBody] Student student, CancellationToken cancellationToken)
         {
             if (student == null)
@@ -39,31 +65,64 @@ namespace E_Gandhal.src.Controllers.StudentController
         }
 
         [HttpDelete("DeleteStudent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteStudent(int studentId, CancellationToken cancellationToken)
         {
-            await _studentRepository.DeleteStudent(studentId, cancellationToken);
-            return Ok("L'élève à bien été supprimé !");
+           try
+           {
+                await _studentRepository.DeleteStudent(studentId, cancellationToken);
+                //return Ok("L'élève à bien été supprimé !");
+                return NoContent();
+           }
+           catch (Exception)
+           {
+                return StatusCode(StatusCodes.Status404NotFound, "L'élève à bien été supprimé !");
+           }
         }
 
         [HttpGet("GetAllStudent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllStudent(CancellationToken cancellationToken)
         {
-            var list = await _studentRepository.GetAllAsync(cancellationToken);
-            return Ok(list);
+            try
+            {
+                var list = await _studentRepository.GetAllAsync(cancellationToken);
+                return Ok(list);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "Nous avons rien trouvé !");
+            }
         }
 
         [HttpPatch("Update-Student-Information")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateStudentInformation(int id, [FromBody] StudentDTO student, CancellationToken cancellationToken)
         {
-            if (student == null)
+            if (!ModelState.IsValid)
             {
                 return BadRequest("Nous n'avons pas pu modifier ces informations !");
             }
-            await _studentRepository.UpdateStudentInformation(id, student, cancellationToken);
-            return Ok("Le changement à bien été effectué !");
+            try
+            {
+                await _studentRepository.UpdateStudentInformation(id, student, cancellationToken);
+                return NoContent();
+                //return Ok("Le changement à bien été effectué !");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Une erreur est survenue lors de la mise à jour de l'élève");
+            }
+            
         }
 
         [HttpPost("{studentId}/UploadImageProfil")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UploadStudentImageProfil(int studentId, IFormFile imgProfil, CancellationToken cancellationToken)
         {
             if (imgProfil == null || imgProfil.Length == 0)

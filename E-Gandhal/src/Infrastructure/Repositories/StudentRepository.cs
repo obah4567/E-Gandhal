@@ -48,6 +48,66 @@ namespace E_Gandhal.src.Infrastructure.Repositories
             return await _applicationDbContext.Students.ToListAsync(cancellationToken);
         }
 
+        public async Task<byte[]> SchoolCertificatePdf(int studentId, CancellationToken cancellationToken)
+        {
+            var existentStudent = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id == studentId);
+            if (existentStudent == null)
+            {
+                _logger.LogInformation($"Nous n'avons pas trouvé cet élève {studentId}");
+                throw new Exception($"Elève avec l'ID {studentId} introuvable.");
+            }
+
+            // Création
+            var pdf = new PdfDocument();
+            var page = pdf.AddPage();
+            var graphics = XGraphics.FromPdfPage(page);
+            var font = new XFont("Arial", 12, XFontStyle.Regular);
+
+            // Titre
+            graphics.DrawString("CERTIFICAT DE SCOLARITE", new XFont("Arial", 16, XFontStyle.BoldItalic), XBrushes.Black, new XPoint(150, 65));
+
+            graphics.DrawString("Le directeur des études certifie que l'élève : ", new XFont("Arial", 14, XFontStyle.Regular), XBrushes.Black, new XPoint(100, 90));
+            // Vérification et ajout de l'image de profil
+            if (!string.IsNullOrEmpty(existentStudent.ImageProfil))
+            {
+                var imagePath = Path.Combine("wwwroot", existentStudent.ImageProfil.TrimStart('/'));
+                if (File.Exists(imagePath))
+                {
+                    // Fonction qui retourne un flux
+                    Func<Stream> imageStreamFunc = () => new FileStream(imagePath, FileMode.Open, FileAccess.Read);
+
+                    // Charger l'image à partir du flux
+                    var profileImage = XImage.FromStream(imageStreamFunc);
+                    graphics.DrawImage(profileImage, 40, 110, 100, 100); // Taille et position de l'image
+                }
+                else
+                {
+                    graphics.DrawString("Photo de profil : Image introuvable", font, XBrushes.Black, new XPoint(100, 200));
+                }
+            }
+
+            // Informations de l'étudiant
+            graphics.DrawString($"ID : {existentStudent.Id}", font, XBrushes.Black, new XPoint(160, 110));
+            graphics.DrawString($"Firstname : {existentStudent.Firstname}", font, XBrushes.Black, new XPoint(160, 130));
+            graphics.DrawString($"Lastname : {existentStudent.Lastname}", font, XBrushes.Black, new XPoint(160, 160));
+            graphics.DrawString($"Date de Naissance: {existentStudent.DateOfBirth:dd/MM/yyyy}", font, XBrushes.Black, new XPoint(160, 190));
+            graphics.DrawString($"Lieu de Naissance: {existentStudent.PlaceOfBirth}", font, XBrushes.Black, new XPoint(160, 220));
+            //graphics.DrawString($"Classe: {existentStudent.ClasseId}", font, XBrushes.Black, new XPoint(160, 250));
+
+            graphics.DrawString($"est inscrit en Classe: {existentStudent.ClasseId} et cette attestation lui \\" +
+                $"délivrée pour servir et valoir ce que de droit ", new XFont("Arial", 14, XFontStyle.Regular), XBrushes.Black, new XPoint(160, 250));
+
+            graphics.DrawString($"Signature: ", font, XBrushes.Black, new XPoint(270, 300));
+            graphics.DrawString($"Fait le : {DateTime.Today}", font, XBrushes.Black, new XPoint(270, 325));
+            // Convertir le PDF en flux de mémoire
+            using (var stream = new MemoryStream())
+            {
+                pdf.Save(stream, false);
+                var pdfBytes = stream.ToArray();
+                return pdfBytes;
+            }
+        }
+
         public async Task<byte[]> GetInformationPdf(int studentId, CancellationToken cancellationToken)
         {
             var existentStudent = await _applicationDbContext.Students.FirstOrDefaultAsync(u => u.Id == studentId);

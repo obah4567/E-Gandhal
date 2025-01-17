@@ -17,6 +17,8 @@ namespace E_Gandhal.src.Domain.IServices
 
         Task UploadImageProfil(int studentId, IFormFile imgProfil, CancellationToken cancellationToken);
 
+        Task<byte[]> SchoolCertificatePdf(int studentId, CancellationToken cancellationToken);
+
         Task<byte[]> GetInformationPdf(int studentId, CancellationToken cancellationToken);
     }
 }
