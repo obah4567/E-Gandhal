@@ -1,4 +1,5 @@
-﻿using E_Gandhal.src.Domain.DTO.TeachersDTO;
+﻿using E_Gandhal.src.Domain.DomainException;
+using E_Gandhal.src.Domain.DTO.TeachersDTO;
 using E_Gandhal.src.Domain.IServices;
 using E_Gandhal.src.Domain.Models.Teachers;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
