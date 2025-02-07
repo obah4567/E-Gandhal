@@ -1,5 +1,5 @@
-﻿using E_Gandhal.src.Domain.DTO.TeacherDTO;
-using E_Gandhal.src.Domain.IServices;
+﻿using E_Gandhal.src.Application.DTOs.TeachersDTO;
+using E_Gandhal.src.Application.IServices;
 using E_Gandhal.src.Domain.Models.Teachers;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
@@ -277,6 +277,13 @@ namespace E_Gandhal.Infrastructure.Repositories
                 Description = teacher.Description,
                 MatiereIds = teacher.Matieres?.Select(m => m.Id).ToList() ?? new List<int>()
             };
+        }
+
+        public async Task<int> CountTeachersAsync(CancellationToken cancellationToken)
+        {
+            var count = await _applicationDbContext.Teachers.CountAsync(cancellationToken);
+
+            return count;
         }
     }
 }

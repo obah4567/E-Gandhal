@@ -1,11 +1,11 @@
-﻿using E_Gandhal.src.Domain.DTO.AuthentificationDTO;
-using E_Gandhal.src.Domain.IServices;
+﻿using E_Gandhal.src.Application.DTOs.AuthentificationDTO;
+using E_Gandhal.src.Application.IServices;
 using E_Gandhal.src.Domain.Models.Authentification;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Gandhal.Infrastructure.Repositories
+namespace E_Gandhal.src.Infrastructure.Repositories
 {
     public class UserRepository : IUserAuthentificationService
     {
@@ -25,13 +25,21 @@ namespace E_Gandhal.Infrastructure.Repositories
             {
                 return IdentityResult.Failed(new IdentityError { Description = $"This {userExisting} was already exist" });
             }
+
+            var schoolExists = await _applicationDbContext.AuthSchools.AnyAsync(s => s.Matricule == registerDto.Matricule, cancellationToken);
+            if (!schoolExists)
+            {
+                throw new Exception($"Ce matricule {registerDto.Matricule} n'existe pas ou veuillez la crée ! ");
+            }
+
             var user = new Register
             {
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
                 FirstName = registerDto.Firstname,
                 LastName = registerDto.Lastname,
-                DateOfBirth = registerDto.DateOfBirth
+                DateOfBirth = registerDto.DateOfBirth,
+                Matricule = registerDto.Matricule
             };
 
             user.PasswordHash = _passwordHasher.HashPassword(user, registerDto.Password);

@@ -1,6 +1,6 @@
-﻿using E_Gandhal.src.Domain.DTO.TeacherDTO;
-using E_Gandhal.src.Domain.IServices;
-using E_Gandhal.src.Domain.Models.Students;
+﻿using E_Gandhal.src.Application.DTOs.TeacherDTO;
+using E_Gandhal.src.Application.DTOs.TeachersDTO;
+using E_Gandhal.src.Application.IServices;
 using E_Gandhal.src.Domain.Models.Teachers;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +10,12 @@ namespace E_Gandhal.Infrastructure.Repositories
     public class ClasseRepository : IClasseService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<ClasseRepository> _logger; 
+        private readonly ILogger<ClasseRepository> _logger;
 
         public ClasseRepository(ApplicationDbContext context, ILogger<ClasseRepository> logger)
         {
             _context = context;
-            _logger = logger;   
+            _logger = logger;
         }
 
         public async Task<ClasseDTO> GetClasseByIdAsync(int classeId)

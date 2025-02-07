@@ -1,7 +1,7 @@
-﻿using E_Gandhal.src.Domain.DTO.AuthentificationDTO;
+﻿using E_Gandhal.src.Application.DTOs.AuthentificationDTO;
 using E_Gandhal.src.Domain.Models.Authentification;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
-using E_Gandhal.Infrastructure.Repositories;
+using E_Gandhal.src.Infrastructure.Repositories;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,14 +42,15 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         {
             // Arrange
             var registerDto = new RegisterDTO
-            {
-                Email = "test@example.com",
-                Username = "userTest",
-                Firstname = "Jean",
-                Lastname = "Doe",
-                DateOfBirth = new DateTime(2000, 12, 1),
-                Password = "Password@123"
-            };
+           (
+                "userTest",
+                "test@example.com",
+                "Password@123",
+                "Jean",
+                "Doe",
+                new DateTime(2000, 12, 1),
+                "SCH-ASS123"
+            );
             _passwordHasher.Setup(ph => ph.HashPassword(It.IsAny<Register>(), It.IsAny<string>())).Returns("hashed_password");
 
             // Act
@@ -75,14 +76,15 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
             await _applicationDbContext.SaveChangesAsync();
 
             var registerDto = new RegisterDTO
-            {
-                Email = "test@example.com",
-                Username = "userTest",
-                Firstname = "Jean",
-                Lastname = "Doe",
-                DateOfBirth = new DateTime(2000, 12, 1),
-                Password = "Password@123"
-            };
+            (
+                "userTest",
+                "test@example.com",
+                "Password@123",
+                "Jean",
+                "Doe",
+                new DateTime(2000, 12, 1),
+                "SCH-ASS123"
+            );
 
             // Act
             var result = await _repository.RegisterUserAsync(registerDto, CancellationToken.None);
@@ -148,10 +150,10 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         {
             //Arrange
             var loginDto = new LoginDTO
-            {
-                Email = "test@example.com",
-                Password = "Password@123"
-            };
+            ("test@example.com",
+                "Password@123",
+                true
+            );
 
             var existingUser = new Register
             {
@@ -178,10 +180,10 @@ namespace E_Gandhal.tests.Infrastructure.Repositories
         {
             //Arrange
             var loginDto = new LoginDTO
-            {
-                Email = "null@example.com",
-                Password = "FakePassword"
-            };
+            ("null@example.com",
+                "FakePassword",
+                false
+            );
 
             var existingUser = new Register
             {

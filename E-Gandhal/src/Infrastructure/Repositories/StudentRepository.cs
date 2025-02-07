@@ -1,5 +1,5 @@
-﻿using E_Gandhal.src.Domain.DTO.StudentDTO;
-using E_Gandhal.src.Domain.IServices;
+﻿using E_Gandhal.src.Application.DTOs.StudentDTO;
+using E_Gandhal.src.Application.IServices;
 using E_Gandhal.src.Domain.Models.Students;
 using E_Gandhal.src.Infrastructure.ApplicationDBContext;
 using Microsoft.EntityFrameworkCore;
@@ -231,5 +231,11 @@ namespace E_Gandhal.Infrastructure.Repositories
             await _applicationDbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<int> CountStudentsAsync(CancellationToken cancellationToken)
+        {
+            var count = await _applicationDbContext.Students.CountAsync(cancellationToken);
+
+            return count;
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace E_Gandhal.src.Infrastructure.ApplicationDBContext
         {
 
         }
-
+        public DbSet<AuthSchool> AuthSchools => Set<AuthSchool>();
         public DbSet<Register> Users => Set<Register>();
         public DbSet<Student> Students => Set<Student>();
         public DbSet<Teacher> Teachers => Set<Teacher>();

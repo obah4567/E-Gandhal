@@ -8,25 +8,25 @@ namespace E_Gandhal.src.Domain.Models.Authentification
         [Key]
         public int UserId { get; set; }
 
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
+        [Required, EmailAddress]
+        public string Email { get; set; } = null!;
 
-        [Required]
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string UserName { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
+        [Required, DataType(DataType.Password)]
         public string PasswordHash { get; set; }
 
         [Required]
-        public string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = null!;
 
         [Required]
-        public string LastName { get; set; } = string.Empty;
+        public string LastName { get; set; } = null!;
 
         public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        public string Matricule { get; set; } = null!;
 
     }
 }
